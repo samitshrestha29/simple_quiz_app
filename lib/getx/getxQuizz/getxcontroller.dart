@@ -13,6 +13,12 @@ class Getx_controller extends GetxController {
     currentindex.value++;
   }
 
+  nextQuestion() {
+    if (currentindex < questions.length) {
+      currentindex++;
+    }
+  }
+
   void playAgain() {
     score.value = 0;
     currentindex.value = 0;

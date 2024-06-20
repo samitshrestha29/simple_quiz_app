@@ -29,6 +29,10 @@ class GetxQuiz extends StatelessWidget {
                       },
                       child: const Text("False"),
                     ),
+                    ElevatedButton(
+                      onPressed: controller.nextQuestion,
+                      child: const Text('Next'),
+                    ),
                   ],
                 )
               : Column(

@@ -24,6 +24,14 @@ class _SimpleQuizState extends State<SimpleQuiz> {
     });
   }
 
+  nextQuestion() {
+    setState(() {
+      if (currentindex < questions.length - 1) {
+        currentindex++;
+      }
+    });
+  }
+
   void playagain() {
     setState(() {
       score = 0;
@@ -51,6 +59,11 @@ class _SimpleQuizState extends State<SimpleQuiz> {
                       setAnswer(false);
                     },
                     child: const Text("false"),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: nextQuestion,
+                    child: const Text("Next"),
                   ),
                 ],
               )

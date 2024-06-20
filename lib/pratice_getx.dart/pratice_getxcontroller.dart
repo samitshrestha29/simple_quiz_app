@@ -1,21 +1,20 @@
 import 'package:get/get.dart';
 import 'package:quizzz_app/question/questions.dart';
 
-class PracticeQuiz extends GetxController {
-  var question =
-      getQuestions(); // The question list can be non-reactive if the list itself doesn't change
+class Quiz extends GetxController {
+  var questions = getQuestions();
+  var currentindex = 0.obs;
   var score = 0.obs;
-  var questionIndex = 0.obs; // Corrected spelling
+  nextQuestion() {
+    if (currentindex.value < questions.length - 1) {
+      currentindex.value++;
+    }
+  }
 
-  void practiceAnswer(bool practiceUserAnswer) {
-    // Corrected spelling
-    if (question[questionIndex.value].isCorrect == practiceUserAnswer) {
+  setAnswer(bool userAnswer) {
+    if (questions[currentindex.value].isCorrect == userAnswer) {
       score.value++;
     }
-    if (questionIndex.value < question.length - 1) {
-      questionIndex.value++;
-    } else {
-      questionIndex.value++;
-    }
+    currentindex.value++;
   }
 }

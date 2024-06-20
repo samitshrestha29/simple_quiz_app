@@ -50,10 +50,12 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:quizzz_app/pratice_getx.dart/pratice_home_getx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quizzz_app/getx/getxQuizz/getx_home.dart';
+import 'package:quizzz_app/riverpod_Quiz/quiz_screen.dart';
 
 void main() {
-  runApp(const Myapp());
+  runApp(const ProviderScope(child: Myapp()));
 }
 
 class Myapp extends StatelessWidget {
@@ -61,8 +63,8 @@ class Myapp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: PraticeGetxHome(),
+    return const MaterialApp(
+      home: QuizScreen(),
     );
   }
 }
