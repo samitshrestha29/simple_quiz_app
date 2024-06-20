@@ -1,90 +1,68 @@
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GetMaterialApp(
+//       home: CounterScreen(),
+//     );
+//   }
+// }
+
+// class CounterController extends GetxController {
+//   var counter = 0.obs;
+
+//   void increment() {
+//     counter++;
+//   }
+// }
+
+// class CounterScreen extends StatelessWidget {
+//   final CounterController counterController = Get.put(CounterController());
+
+//   CounterScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Counter App'),
+//       ),
+//       body: Center(
+//         child: Obx(() => Text(
+//               'Counter: ${counterController.counter}',
+//               style: const TextStyle(fontSize: 24),
+//             )),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: counterController.increment,
+//         child: const Icon(Icons.add),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'questions.dart';
+import 'package:quizzz_app/pratice_getx.dart/pratice_home_getx.dart';
 
 void main() {
-  runApp(const QuizApp());
+  runApp(const Myapp());
 }
 
-class QuizApp extends StatelessWidget {
-  const QuizApp({super.key});
+class Myapp extends StatelessWidget {
+  const Myapp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: QuizPage(),
-    );
-  }
-}
-
-class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
-
-  @override
-  State<QuizPage> createState() => _QuizPageState();
-}
-
-class _QuizPageState extends State<QuizPage> {
-  List<Question> questions = getQuestions();
-
-  int currentindex = 0;
-  int score = 0;
-  setAnswer(bool userAnswer) {
-    setState(() {
-      if (questions[currentindex].isCorrect == userAnswer) {
-        score++;
-      }
-    });
-    setState(() {
-      currentindex++;
-    });
-  }
-
-  void playagain() {
-    setState(() {
-      score = 0;
-      currentindex = 0;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: currentindex < questions.length
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(questions[currentindex].questionText),
-                  ElevatedButton(
-                    onPressed: () {
-                      setAnswer(true);
-                    },
-                    child: const Text("True"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      setAnswer(false);
-                    },
-                    child: const Text("false"),
-                  ),
-                ],
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Your score is: $score/${questions.length}',
-                    style: const TextStyle(fontSize: 24.0),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: playagain,
-                    child: const Text("Play Again"),
-                  ),
-                ],
-              ),
-      ),
+    return MaterialApp(
+      home: PraticeGetxHome(),
     );
   }
 }
