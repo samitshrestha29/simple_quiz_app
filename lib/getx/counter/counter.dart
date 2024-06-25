@@ -3,9 +3,8 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class Counter extends StatelessWidget {
-  final Counterclass counter_controller = Get.put(Counterclass());
   Counter({super.key});
-
+  final Classcounter countercontroller = Get.put(Classcounter());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -14,19 +13,12 @@ class Counter extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(
-                () => Text(
-                  '${counter_controller.counter.value}',
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              )
+              Obx(() => Text('${countercontroller.currentIndex.value}'))
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: counter_controller.counterMethod,
+          onPressed: countercontroller.counter,
           child: const Icon(Icons.add),
         ),
       ),
@@ -34,10 +26,9 @@ class Counter extends StatelessWidget {
   }
 }
 
-class Counterclass extends GetxController {
-  var counter = 0.obs;
-
-  counterMethod() {
-    counter.value++;
+class Classcounter extends GetxController {
+  var currentIndex = 0.obs;
+  counter() {
+    currentIndex.value++;
   }
 }

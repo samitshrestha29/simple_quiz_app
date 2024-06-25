@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quizzz_app/riverpod_Quiz/quiz.state.dart';
+import 'package:quizzz_app/riverpod/riverpod_Quiz/quiz.state.dart';
 
 class QuizScreen extends ConsumerWidget {
   const QuizScreen({super.key});

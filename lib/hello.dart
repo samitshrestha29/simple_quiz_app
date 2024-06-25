@@ -14,6 +14,7 @@ void main() {
   Map<String, dynamic> x = {'name': "samit", 'age': 12};
 
   for (var entry in x.entries) {
-    print('${entry.key} : ${entry.value}');
+    // print('${entry.key} : ${entry.value}');
+    print('${entry.skey}:${entry.value}');
   }
 }
