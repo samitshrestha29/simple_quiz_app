@@ -16,7 +16,7 @@ class CounterScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${counterState.counter}',
+                '${counterState.counter},${counterState.name}',
                 style: const TextStyle(
                   fontSize: 20,
                 ),
@@ -35,15 +35,16 @@ class CounterScreen extends ConsumerWidget {
 
 class CounterState {
   final int counter;
+  final String name;
 
-  CounterState(this.counter);
+  CounterState(this.counter, this.name);
 }
 
 class CounterNotifier extends StateNotifier<CounterState> {
-  CounterNotifier() : super(CounterState(0));
+  CounterNotifier() : super(CounterState(0, 'samit'));
 
   void increment() {
-    state = CounterState(state.counter + 1);
+    state = CounterState(state.counter + 1, 'samit');
   }
 }
 

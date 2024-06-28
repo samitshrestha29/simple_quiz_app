@@ -1,181 +1,9 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// main() {
-//   runApp(const ProviderScope(child: MyApp()));
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: MyHome(),
-//     );
-//   }
-// }
-
-// class MyHome extends ConsumerWidget {
-//   const MyHome({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final count = ref.watch(counterProvider);
-//     return SafeArea(
-//       child: Scaffold(
-//         body: Center(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Consumer(
-//                 builder: (context, ref, child) {
-//                   return Text(count.toString());
-//                 },
-//               )
-//             ],
-//           ),
-//         ),
-//         floatingActionButton: FloatingActionButton(onPressed: () {
-//           ref.read(counterProvider.notifier).state++;
-//         }),
-//       ),
-//     );
-//   }
-// }
-
-// class Counter {
-//   int count;
-//   Counter(this.count);
-// }
-
-// class CounterNotifier extends StateNotifier<Counter> {
-//   CounterNotifier() : super(Counter(0));
-//   increment() {
-//     state = Counter(state.count + 1);
-//   }
-// }
-
-// final counterProvider = StateProvider<int>((ref) {
-//   return 0;
-// });
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// void main() {
-//   runApp(const ProviderScope(child: MyApp()));
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: MyHomePage(),
-//     );
-//   }
-// }
-
-// class MyHomePage extends ConsumerWidget {
-//   const MyHomePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final countercontroller = ref.watch(counterProvider);
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('My Home Page'),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text('${counterProvider.notifier}'),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {
-//           ref.read(counterProvider.notifier).state++;
-//         },
-//         child: const Text('data'),
-//       ),
-//     );
-//   }
-// }
-
-// class Counter {
-//   int count;
-
-//   Counter(this.count);
-// }
-
-// class CounterNotifier extends StateNotifier<int> {
-//   CounterNotifier() : super(0);
-// }
-
-// final counterProvider = StateProvider<int>((ref) {
-//   return 0;
-// });
-// class CounterNotifier extends StateNotifier<Counter> {
-//   CounterNotifier() : super(Counter(0));
-//   increment() {
-//     state = Counter(state.count + 1);
-//   }
-// }
-
-// final counterProvider = StateNotifierProvider<CounterNotifier, Counter>((ref) {
-//   return CounterNotifier();
-// });
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// void main() {
-//   runApp(const ProviderScope(child: MyApp()));
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: MyHomePage(),
-//     );
-//   }
-// }
-
-// class MyHomePage extends ConsumerWidget {
-//   const MyHomePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('My Home Page'),
-//       ),
-//       body: const Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text(''),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+import 'package:quizzz_app/question/questions.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -183,59 +11,83 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return GetMaterialApp(
       home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends ConsumerWidget {
-  const MyHomePage({super.key});
+class MyHomePage extends StatelessWidget {
+  Quiz quizcontroller = Get.put(Quiz());
+  MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(counterProvider);
-    final countercontroller = ref.read(counterProvider.notifier);
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Home Page'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('${value.count}'),
-          ],
-        ),
+      body: Obx(
+        () => quizcontroller.questionPosition <
+                quizcontroller.questions.length - 1
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(
+                      () => Text(quizcontroller
+                          .questions[quizcontroller.questionPosition.value]
+                          .questionText),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        quizcontroller.setAnswer(true);
+                      },
+                      child: const Text('True'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        quizcontroller.setAnswer(false);
+                      },
+                      child: const Text('False'),
+                    ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                        '${quizcontroller.score}/${quizcontroller.questions.length}'),
+                  ],
+                ),
+              ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: countercontroller.increment(),
-        //  () {
-        //   // ref.read(counterProvider.notifier).state++;
-        //   value.increment;
-        // },
-        child: const Text('data'),
+        onPressed: () {
+          quizcontroller.nextQuestion();
+        },
+        child: const Text('Next'),
       ),
     );
   }
 }
 
-// final counterProvider = StateProvider<int>((ref) {
-//   return 0;
-// });
+class Quiz extends GetxController {
+  var questionPosition = 0.obs;
+  var questions = getQuestions();
+  var score = 0.obs;
+  nextQuestion() {
+    if (questionPosition.value < questions.length - 1) {
+      questionPosition.value++;
+    }
+  }
 
-class Counter {
-  int count;
-  Counter(this.count);
-}
-
-class CounterNotifier extends StateNotifier<Counter> {
-  CounterNotifier() : super(Counter(0));
-  increment() {
-    state = Counter(state.count + 1);
+  setAnswer(bool userAnswer) {
+    if (questions[questionPosition.value].isCorrect == userAnswer) {
+      score++;
+    }
+    nextQuestion();
   }
 }
-
-final counterProvider = StateNotifierProvider<CounterNotifier, Counter>((ref) {
-  return CounterNotifier();
-});

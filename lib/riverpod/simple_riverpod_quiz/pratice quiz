@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'question/questions.dart';
+
+void main() {
+  runApp(const ProviderScope(child: MyApp()));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Quiz App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const QuizScreen(),
+    );
+  }
+}
+
+class QuizScreen extends ConsumerWidget {
+  const QuizScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the current quiz state
+    final quizState = ref.watch(quizProvider);
+    // Get the quiz controller to change the state
+    final quizController = ref.read(quizProvider.notifier);
+
+    return Scaffold(
+      body: Center(
+        child: quizState.currentIndex < quizState.questions.length
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Display the current question
+                  Text(
+                      quizState.questions[quizState.currentIndex].questionText),
+                  // Button to answer "True"
+                  ElevatedButton(
+                    onPressed: () {
+                      quizController.setAnswer(true);
+                    },
+                    child: const Text("True"),
+                  ),
+                  // Button to answer "False"
+                  ElevatedButton(
+                    onPressed: () {
+                      quizController.setAnswer(false);
+                    },
+                    child: const Text("False"),
+                  ),
+                  // Button to go to the next question
+                  ElevatedButton(
+                    onPressed: quizController.nextQuestion,
+                    child: const Text('Next'),
+                  ),
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Display the final score
+                  Text(
+                    'Your score is: ${quizState.score}/${quizState.questions.length}',
+                    style: const TextStyle(fontSize: 24.0),
+                  ),
+                  const SizedBox(height: 20),
+                  // Button to play the quiz again
+                  ElevatedButton(
+                    onPressed: quizController.playAgain(),
+                    child: const Text("Play Again"),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
+}
+
+// This class holds the state of the quiz
+class QuizState {
+  final List<Question> questions;
+  final int currentIndex;
+  final int score;
+
+  QuizState({
+    required this.questions,
+    required this.currentIndex,
+    required this.score,
+  });
+}
+
+
+
+
+// This class controls the state of the quiz
+class QuizNotifier extends StateNotifier<QuizState> {
+  QuizNotifier()
+      : super(QuizState(questions: getQuestions(), currentIndex: 0, score: 0));
+
+  // Method to set the answer and update the score if correct
+  void setAnswer(bool userAnswer) {
+    if (state.questions[state.currentIndex].isCorrect == userAnswer) {
+      state = QuizState(
+        questions: state.questions,
+        currentIndex: state.currentIndex,
+        score: state.score + 1,
+      );
+    }
+    nextQuestion();
+  }
+
+  // Method to go to the next question
+  void nextQuestion() {
+    if (state.currentIndex < state.questions.length - 1) {
+      state = QuizState(
+        questions: state.questions,
+        currentIndex: state.currentIndex + 1,
+        score: state.score,
+      );
+    } else {
+      state = QuizState(
+        questions: state.questions,
+        currentIndex: state.questions.length,
+        score: state.score,
+      );
+    }
+  }
+
+  Method to reset the quiz to play again
+  void playAgain() {
+    state = QuizState(
+      questions: state.questions,
+      currentIndex: 0,
+      score: 0,
+    );
+  }
+}
+
+// This provider allows access to the QuizNotifier and QuizState
+final quizProvider = StateNotifierProvider<QuizNotifier, QuizState>((ref) {
+  return QuizNotifier();
+});

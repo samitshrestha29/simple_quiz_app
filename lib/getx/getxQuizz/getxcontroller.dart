@@ -15,7 +15,7 @@ class Getx_controller extends GetxController {
 
   nextQuestion() {
     if (currentindex < questions.length) {
-      currentindex++;
+      currentindex.value++;
     }
   }
 
